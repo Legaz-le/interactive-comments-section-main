@@ -8,7 +8,7 @@ const Comment = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-5">
                   <img src="/images/avatars/image-amyrobson.png" alt="avatar-img"  className="h-10 w-10"/> 
-                  <p>1 month ago</p>
+                  <p></p>
                   </div>
                   <button className="flex  items-center cursor-pointer gap-5"><img src="/images/icon-reply.svg" alt="reply-icon"  className="object-contain"/> Reply</button>
                 </div>
