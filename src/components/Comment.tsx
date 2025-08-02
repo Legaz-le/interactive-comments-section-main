@@ -6,6 +6,8 @@ const Comment = () => {
   const [replyContent, setReplyContent] = useState("");
   const [editId, setEditId] = useState<number | null>(null);
   const [editContent, setEditContent] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
 
   const handleReplyClick = (id: number) => {
     setActiveReplyId(id);
@@ -141,7 +143,13 @@ const Comment = () => {
                       <div className="flex gap-2">
                         {reply.user.username === data.currentUser.username ? (
                           <div className="flex gap-5">
-                            <button className="group text-Pink-400 text-sm font-bold flex items-center gap-1 cursor-pointer group-hover:text-Pink-200">
+                            <button
+                              onClick={() => {
+                                setShowDeleteModal(true);
+                                setDeleteTargetId(reply.id);
+                              }}
+                              className="group text-Pink-400 text-sm font-bold flex items-center gap-1 cursor-pointer group-hover:text-Pink-200"
+                            >
                               <img
                                 src="/images/icon-delete.svg"
                                 alt="delete"
@@ -182,6 +190,38 @@ const Comment = () => {
                           </button>
                         )}
                       </div>
+                      {showDeleteModal && (
+                        <div className="fixed inset-0 bg-Grey-500/20 flex items-center justify-center z-50">
+                          <div className="bg-white p-6 rounded-lg w-80 shadow-lg text-center">
+                            <h2 className="text-lg font-bold mb-4">
+                              Delete Comment
+                            </h2>
+                            <p className="text-gray-600 mb-6">
+                              Are you sure you want to delete this comment? This
+                              action cannot be undone.
+                            </p>
+                            <div className="flex justify-between">
+                              <button
+                                onClick={() => setShowDeleteModal(false)}
+                                className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 cursor-pointer"
+                              >
+                                NO, CANCEL
+                              </button>
+                              <button
+                                onClick={() => {
+                                  // 🔥 delete logic here
+                                  console.log("Deleting ID:", deleteTargetId);
+                                  setShowDeleteModal(false);
+                                  setDeleteTargetId(null);
+                                }}
+                                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 cursor-pointer"
+                              >
+                                DELETE
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                     {editId === reply.id ? (
                       <div className="mt-3">
