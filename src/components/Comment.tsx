@@ -4,10 +4,21 @@ import { useState } from "react";
 const Comment = () => {
   const [activeReplyId, setActiveReplyId] = useState<number | null>(null);
   const [replyContent, setReplyContent] = useState("");
+  const [editId, setEditId] = useState<number | null>(null);
+  const [editContent, setEditContent] = useState("");
 
   const handleReplyClick = (id: number) => {
     setActiveReplyId(id);
     setReplyContent("");
+  };
+  const handleEditClick = (id: number, currentContent: string) => {
+    setEditId(id);
+    setEditContent(currentContent);
+  };
+  const handleSaveEdit = (id: number) => {
+    console.log("Save Edit ID:", id, "New content:", editContent);
+    setEditId(null);
+    setEditContent("");
   };
 
   const handleSendReply = (parentId: number) => {
@@ -140,7 +151,12 @@ const Comment = () => {
                                 Delete
                               </span>
                             </button>
-                            <button className="group text-Purple-600 group-hover:text-Purple-200 text-sm font-bold flex items-center gap-1 cursor-pointer">
+                            <button
+                              onClick={() =>
+                                handleEditClick(reply.id, reply.content)
+                              }
+                              className="group text-Purple-600 group-hover:text-Purple-200 text-sm font-bold flex items-center gap-1 cursor-pointer"
+                            >
                               <img
                                 src="/images/icon-edit.svg"
                                 alt="delete"
@@ -167,12 +183,36 @@ const Comment = () => {
                         )}
                       </div>
                     </div>
-                    <p className="text-gray-700 mt-3">
-                      <span className="text-Purple-600 font-bold">
-                        @{reply.replyingTo}
-                      </span>{" "}
-                      {reply.content}
-                    </p>
+                    {editId === reply.id ? (
+                      <div className="mt-3">
+                        <textarea
+                          value={editContent}
+                          onChange={(e) => setEditContent(e.target.value)}
+                          className="w-full border rounded-md p-2"
+                        />
+                        <div className="mt-2 flex gap-2">
+                          <button
+                            onClick={() => handleSaveEdit(reply.id)}
+                            className="bg-Purple-600 text-white px-3 py-1 rounded"
+                          >
+                            Save
+                          </button>
+                          <button
+                            onClick={() => setEditId(null)}
+                            className="bg-gray-300 px-3 py-1 rounded"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-gray-700 mt-3">
+                        <span className="text-Purple-600 font-bold">
+                          @{reply.replyingTo}
+                        </span>{" "}
+                        {reply.content}
+                      </p>
+                    )}
                   </div>
                 </div>
                 {activeReplyId === reply.id && (
