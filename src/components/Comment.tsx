@@ -1,3 +1,4 @@
+import React from 'react';
 import data from "../context/data.json";
 import { useState } from "react";
 
