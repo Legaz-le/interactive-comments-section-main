@@ -39,7 +39,7 @@ const Comment = () => {
             {/* Score & Comment Body */}
             <div className="flex gap-4">
               {/* Score Box */}
-              <div className="bg-Grey-50 flex  flex-col items-center gap-3 rounded-lg px-2 py-3 w-10">
+              <div className="hidden bg-Grey-50 md:flex  flex-col items-center gap-3 rounded-lg px-2 py-3 w-10">
                 <img
                   src="/images/icon-plus.svg"
                   alt="plus"
@@ -67,7 +67,7 @@ const Comment = () => {
                   </div>
                   <button
                     onClick={() => handleReplyClick(comment.id)}
-                    className="group text-Purple-600 group-hover:text-Purple-200 font-bold flex items-center gap-1 text-sm cursor-pointer"
+                    className="hidden md:flex group text-Purple-600 group-hover:text-Purple-200 font-bold  items-center gap-1 text-sm cursor-pointer"
                   >
                     <img
                       src="/images/icon-reply.svg"
@@ -79,6 +79,34 @@ const Comment = () => {
                   </button>
                 </div>
                 <p className="text-gray-700 mt-3">{comment.content}</p>
+                <div className="md:hidden flex justify-between mt-2">
+                  <div className="bg-Grey-50 flex items-center gap-3 rounded-lg px-5 py-3 w-25">
+                    <img
+                      src="/images/icon-plus.svg"
+                      alt="plus"
+                      className="cursor-pointer"
+                    />
+                    <p className="font-bold text-Purple-600">{comment.score}</p>
+                    <img
+                      src="/images/icon-minus.svg"
+                      alt="minus"
+                      className="cursor-pointer"
+                    />
+                  </div>
+
+                  <button
+                    onClick={() => handleReplyClick(comment.id)}
+                    className=" group text-Purple-600 group-hover:text-Purple-200 font-bold flex items-center gap-1 text-sm cursor-pointer"
+                  >
+                    <img
+                      src="/images/icon-reply.svg"
+                      className="w-3 h-3  group-hover:opacity-40 transition "
+                    />
+                    <span className="transition-colors duration-200 group-hover:text-Purple-200">
+                      Reply
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -105,11 +133,11 @@ const Comment = () => {
           )}
           {/* Replies */}
 
-          <div className="ml-10 pl-10 mt-4 border-l-1  border-gray-200 space-y-4 bg-Grey-50">
+          <div className="md:ml-10 md:pl-10 pl-3 mt-4 border-l-1  border-gray-200 space-y-4 bg-Grey-50">
             {comment.replies.map((reply) => (
               <div key={reply.id} className="bg-White rounded-md p-4 shadow">
                 <div className="flex gap-4">
-                  <div className="bg-Grey-50 flex  flex-col items-center gap-3 rounded-lg px-2 py-3 w-10">
+                  <div className="hidden bg-Grey-50 md:flex  flex-col items-center gap-3 rounded-lg px-2 py-3 w-10">
                     <img
                       src="/images/icon-plus.svg"
                       alt="plus"
@@ -148,7 +176,7 @@ const Comment = () => {
                                 setShowDeleteModal(true);
                                 setDeleteTargetId(reply.id);
                               }}
-                              className="group text-Pink-400 text-sm font-bold flex items-center gap-1 cursor-pointer group-hover:text-Pink-200"
+                              className="hidden group text-Pink-400 text-sm font-bold md:flex items-center gap-1 cursor-pointer group-hover:text-Pink-200"
                             >
                               <img
                                 src="/images/icon-delete.svg"
@@ -163,7 +191,7 @@ const Comment = () => {
                               onClick={() =>
                                 handleEditClick(reply.id, reply.content)
                               }
-                              className="group text-Purple-600 group-hover:text-Purple-200 text-sm font-bold flex items-center gap-1 cursor-pointer"
+                              className="hidden group text-Purple-600 group-hover:text-Purple-200 text-sm font-bold md:flex items-center gap-1 cursor-pointer"
                             >
                               <img
                                 src="/images/icon-edit.svg"
@@ -178,7 +206,7 @@ const Comment = () => {
                         ) : (
                           <button
                             onClick={() => handleReplyClick(reply.id)}
-                            className="group text-Purple-600 group-hover:text-Purple-200 font-bold flex items-center gap-1 text-sm cursor-pointer"
+                            className="hidden  group text-Purple-600 group-hover:text-Purple-200 font-bold md:flex items-center gap-1 text-sm cursor-pointer"
                           >
                             <img
                               src="/images/icon-reply.svg"
@@ -233,25 +261,85 @@ const Comment = () => {
                         <div className="mt-2 flex gap-2">
                           <button
                             onClick={() => handleSaveEdit(reply.id)}
-                            className="bg-Purple-600 text-white px-3 py-1 rounded"
+                            className="bg-Purple-600 text-white px-3 py-1 rounded cursor-pointer"
                           >
                             Save
                           </button>
                           <button
                             onClick={() => setEditId(null)}
-                            className="bg-gray-300 px-3 py-1 rounded"
+                            className="bg-gray-300 px-3 py-1 rounded cursor-pointer"
                           >
                             Cancel
                           </button>
                         </div>
                       </div>
                     ) : (
-                      <p className="text-gray-700 mt-3">
-                        <span className="text-Purple-600 font-bold">
-                          @{reply.replyingTo}
-                        </span>{" "}
-                        {reply.content}
-                      </p>
+                      <div>
+                        <p className="text-gray-700 mt-3">
+                          <span className="text-Purple-600 font-bold">
+                            @{reply.replyingTo}
+                          </span>{" "}
+                          {reply.content}
+                        </p>
+                        <div className="md:hidden flex justify-between mt-3">
+                          <div className="bg-Grey-50 flex items-center gap-3 rounded-lg px-5 py-3 w-25">
+                            <img
+                              src="/images/icon-plus.svg"
+                              alt="plus"
+                              className="cursor-pointer"
+                            />
+                            <p className="font-bold text-Purple-600">
+                              {reply.score}
+                            </p>
+                            <img
+                              src="/images/icon-minus.svg"
+                              alt="minus"
+                              className="cursor-pointer"
+                            />
+                          </div>
+
+                          {reply.user.username === data.currentUser.username ? (
+                            <div className="flex gap-4">
+                              <button
+                                onClick={() => {
+                                  setShowDeleteModal(true);
+                                  setDeleteTargetId(reply.id);
+                                }}
+                                className="text-Pink-400 font-bold text-sm flex items-center gap-1"
+                              >
+                                <img
+                                  src="/images/icon-delete.svg"
+                                  className="w-3 h-3"
+                                />
+                                Delete
+                              </button>
+                              <button
+                                onClick={() =>
+                                  handleEditClick(reply.id, reply.content)
+                                }
+                                className="text-Purple-600 font-bold text-sm flex items-center gap-1"
+                              >
+                                <img
+                                  src="/images/icon-edit.svg"
+                                  className="w-3 h-3"
+                                />
+                                Edit
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => handleReplyClick(reply.id)}
+                              className="text-Purple-600 font-bold text-sm flex items-center gap-1"
+                            >
+                              <img
+                                src="/images/icon-reply.svg"
+                                className="w-3 h-3"
+                              />
+                              Reply
+                            </button>
+                          )}
+                        </div>
+                      </div>
                     )}
                   </div>
                 </div>
