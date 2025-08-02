@@ -2,7 +2,6 @@ import data from "../context/data.json";
 import { useState } from "react";
 
 const Comment = () => {
-
   const [activeReplyId, setActiveReplyId] = useState<number | null>(null);
   const [replyContent, setReplyContent] = useState("");
 
@@ -22,15 +21,23 @@ const Comment = () => {
   return (
     <div className="min-h-screen bg-Grey-50 py-8 px-4 md:px-20">
       {data.comments.map((comment) => (
-        <>
-          <div key={comment.id} className="bg-White rounded-md p-5 mb-4 shadow">
+        <div key={comment.id}>
+          <div className="bg-White rounded-md p-5 mb-4 shadow">
             {/* Score & Comment Body */}
             <div className="flex gap-4">
               {/* Score Box */}
               <div className="bg-Grey-50 flex  flex-col items-center gap-3 rounded-lg px-2 py-3 w-10">
-                <img src="/images/icon-plus.svg" alt="plus" className="cursor-pointer" />
+                <img
+                  src="/images/icon-plus.svg"
+                  alt="plus"
+                  className="cursor-pointer"
+                />
                 <p className="font-bold text-Purple-600">{comment.score}</p>
-                <img src="/images/icon-minus.svg" alt="minus" className="cursor-pointer"/>
+                <img
+                  src="/images/icon-minus.svg"
+                  alt="minus"
+                  className="cursor-pointer"
+                />
               </div>
 
               {/* Comment Content */}
@@ -46,10 +53,16 @@ const Comment = () => {
                     <p className="text-gray-400 text-sm">{comment.createdAt}</p>
                   </div>
                   <button
-                  onClick={() => handleReplyClick(comment.id)}
-                   className="group text-Purple-600 group-hover:text-Purple-200 font-bold flex items-center gap-1 text-sm cursor-pointer">
-                    <img src="/images/icon-reply.svg" className="w-3 h-3  group-hover:opacity-40 transition " />
-                    <span className="transition-colors duration-200 group-hover:text-Purple-200">Reply</span>
+                    onClick={() => handleReplyClick(comment.id)}
+                    className="group text-Purple-600 group-hover:text-Purple-200 font-bold flex items-center gap-1 text-sm cursor-pointer"
+                  >
+                    <img
+                      src="/images/icon-reply.svg"
+                      className="w-3 h-3  group-hover:opacity-40 transition "
+                    />
+                    <span className="transition-colors duration-200 group-hover:text-Purple-200">
+                      Reply
+                    </span>
                   </button>
                 </div>
                 <p className="text-gray-700 mt-3">{comment.content}</p>
@@ -71,7 +84,7 @@ const Comment = () => {
               />
               <button
                 onClick={() => handleSendReply(comment.id)}
-                className="bg-Purple-600 hover:bg-Purple-200 text-white px-4 py-2 rounded-md"
+                className="bg-Purple-600 hover:bg-Purple-200 text-white px-4 py-2 rounded-md cursor-pointer"
               >
                 Reply
               </button>
@@ -84,9 +97,17 @@ const Comment = () => {
               <div key={reply.id} className="bg-White rounded-md p-4 shadow">
                 <div className="flex gap-4">
                   <div className="bg-Grey-50 flex  flex-col items-center gap-3 rounded-lg px-2 py-3 w-10">
-                    <img src="/images/icon-plus.svg" alt="plus" className="cursor-pointer"/>
+                    <img
+                      src="/images/icon-plus.svg"
+                      alt="plus"
+                      className="cursor-pointer"
+                    />
                     <p className="font-bold text-Purple-600">{reply.score}</p>
-                    <img src="/images/icon-minus.svg" alt="minus" className="cursor-pointer"/>
+                    <img
+                      src="/images/icon-minus.svg"
+                      alt="minus"
+                      className="cursor-pointer"
+                    />
                   </div>
                   <div className="w-full">
                     <div className="flex justify-between items-center">
@@ -110,23 +131,38 @@ const Comment = () => {
                         {reply.user.username === data.currentUser.username ? (
                           <div className="flex gap-5">
                             <button className="group text-Pink-400 text-sm font-bold flex items-center gap-1 cursor-pointer group-hover:text-Pink-200">
-                              <img src="/images/icon-delete.svg" alt="delete"  className="group-hover:opacity-40 transition"/>
-                              <span className="transition-colors duration-200 group-hover:text-Pink-200">Delete</span>
+                              <img
+                                src="/images/icon-delete.svg"
+                                alt="delete"
+                                className="group-hover:opacity-40 transition"
+                              />
+                              <span className="transition-colors duration-200 group-hover:text-Pink-200">
+                                Delete
+                              </span>
                             </button>
                             <button className="group text-Purple-600 group-hover:text-Purple-200 text-sm font-bold flex items-center gap-1 cursor-pointer">
-                              <img src="/images/icon-edit.svg" alt="delete"  className="group-hover:opacity-40 transition"/>
-                              <span className="transition-colors duration-200 group-hover:text-Purple-200">Edit</span>
+                              <img
+                                src="/images/icon-edit.svg"
+                                alt="delete"
+                                className="group-hover:opacity-40 transition"
+                              />
+                              <span className="transition-colors duration-200 group-hover:text-Purple-200">
+                                Edit
+                              </span>
                             </button>
                           </div>
                         ) : (
                           <button
-                          onClick={() => handleReplyClick(comment.id)}
-                           className="group text-Purple-600 group-hover:text-Purple-200 font-bold flex items-center gap-1 text-sm cursor-pointer">
+                            onClick={() => handleReplyClick(reply.id)}
+                            className="group text-Purple-600 group-hover:text-Purple-200 font-bold flex items-center gap-1 text-sm cursor-pointer"
+                          >
                             <img
                               src="/images/icon-reply.svg"
                               className="w-3 h-3 group-hover:opacity-40 transition"
                             />
-                            <span className="transition-colors duration-200 group-hover:text-Purple-200">Reply</span>
+                            <span className="transition-colors duration-200 group-hover:text-Purple-200 ">
+                              Reply
+                            </span>
                           </button>
                         )}
                       </div>
@@ -140,30 +176,30 @@ const Comment = () => {
                   </div>
                 </div>
                 {activeReplyId === reply.id && (
-                <div className="mt-4 flex gap-4 items-start">
-                  <img
-                    src={data.currentUser.image.png}
-                    alt="your avatar"
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <textarea
-                    value={replyContent}
-                    onChange={(e) => setReplyContent(e.target.value)}
-                    placeholder="Write your reply..."
-                    className="flex-1 resize-none border rounded-md p-2"
-                  />
-                  <button
-                    onClick={() => handleSendReply(reply.id)}
-                    className="bg-Purple-600 hover:bg-Purple-200 text-white px-4 py-2 rounded-md"
-                  >
-                    Reply
-                  </button>
-                </div>
-              )}
+                  <div className="mt-4 flex gap-4 items-start">
+                    <img
+                      src={data.currentUser.image.png}
+                      alt="your avatar"
+                      className="w-10 h-10 rounded-full"
+                    />
+                    <textarea
+                      value={replyContent}
+                      onChange={(e) => setReplyContent(e.target.value)}
+                      placeholder="Write your reply..."
+                      className="flex-1 resize-none border rounded-md p-2"
+                    />
+                    <button
+                      onClick={() => handleSendReply(reply.id)}
+                      className="bg-Purple-600 hover:bg-Purple-200 text-white px-4 py-2 rounded-md cursor-pointer"
+                    >
+                      Reply
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
-        </>
+        </div>
       ))}
 
       {/* Add Comment Box */}
